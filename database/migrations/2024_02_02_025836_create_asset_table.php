@@ -16,7 +16,9 @@ return new class extends Migration
             $table->string('name');
             $table->string('description');
             $table->unsignedBigInteger('asset_id');
-            $table->foreign('asset_id')->references('id')->on('asset_types')->onDelete('cascade');
+            $table->foreign('asset_id')->references('id')
+            ->on('asset_types')
+            ->onDelete('cascade');
             $table->timestamps();
         });
     }
