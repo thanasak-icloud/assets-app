@@ -25,27 +25,27 @@
                             <form method="POST" action="{{ route('user.assetrequest.store') }}">
                                 @csrf
                                 <div class="row">
-                                    <div class="col-12 mb-3">
+                                    {{-- <div class="col-12 mb-3">
                                         <label for="" class="form-label">Type</label>
-                                        <select class="form-select" aria-label="Default select example">
+                                        <select name="asset_type_id" class="form-select" aria-label="Default select example">
                                             <option selected>Open this select menu</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
+                                            @foreach ($assetType as $item)
+                                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div> --}}
+                                    <div class="col-12 mb-3">
+                                        <label for="" class="form-label">Asset to request</label>
+                                        <select name="asset_id" class="form-select" aria-label="Default select example">
+                                            {{-- <option selected>Open this select menu</option> --}}
+                                            @foreach ($asset as $item)
+                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                     <div class="col-12 mb-3">
-                                        <label for="" class="form-label">Detail</label>
-                                        <select class="form-select" aria-label="Default select example">
-                                            <option selected>Open this select menu</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-12 mb-3">
-                                        <label for="" class="form-label">quantity</label>
-                                        <input type="number" class="form-control">
+                                        <label for="" class="form-label">Quantity</label>
+                                        <input name="quantity" type="number" class="form-control">
                                     </div>
                                 </div>
                                 {{-- <x-primary-button>Submit</x-primary-button> --}}

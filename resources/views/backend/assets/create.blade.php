@@ -23,28 +23,28 @@
                     <div class="row">
                         <div class="col-md-4"></div>
                         <div class="col-md-4">
-                            <form>
-
+                            <form method="POST" action="{{ route('admin.asset.store') }}">
+                                @csrf
                                 <div class="row">
                                     <div class="col-12 mb-3">
                                         <label for="" class="form-label">Name</label>
-                                        <input type="text" class="form-control">
+                                        <input name="name" type="text" class="form-control">
                                     </div>
                                     <div class="col-12 mb-3">
                                         <label for="" class="form-label">Description</label>
-                                        <input type="text" class="form-control">
+                                        <input name="description" type="text" class="form-control">
                                     </div>
                                     <div class="col-12 mb-3">
-                                        <select class="form-select" aria-label="Default select example">
+                                        <select name="asset_type_id" class="form-select" aria-label="Default select example">
                                             <option selected>Open this select menu</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
+                                            @foreach ($assetType as $item)
+                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                     <div class="col-12 mb-3">
                                         <label for="" class="form-label">Price</label>
-                                        <input type="number" class="form-control">
+                                        <input name="price" type="number" class="form-control">
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-primary text-dark">Submit</button>

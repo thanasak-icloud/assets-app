@@ -3,15 +3,18 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Services\AssetService;
 use App\Services\RequestAssetsService;
 use Illuminate\Http\Request;
 
 class AssetsRequestController extends Controller
 {
     protected $requestAssetsService;
+    protected $AssetsService;
 
-    public function __construct(RequestAssetsService $requestAssetsService)
+    public function __construct(RequestAssetsService $requestAssetsService, AssetService $AssetsService)
     {
+        $this->AssetsService = $AssetsService;
         $this->requestAssetsService = $requestAssetsService;
     }
 
@@ -29,7 +32,9 @@ class AssetsRequestController extends Controller
      */
     public function create()
     {
-        return view('assets-request.create');
+        $assetType = $this->AssetsService->getType();
+        $asset = $this->AssetsService->getAll();
+        return view('assets-request.create', compact('assetType','asset'));
     }
 
     /**
@@ -41,8 +46,8 @@ class AssetsRequestController extends Controller
             $this->requestAssetsService->store($request->all());
             return redirect()->route('user.assetrequest.index')->with('success', 'Request assets successfully');
 
-        } catch (\Throwable $th) {
-            return redirect()->back()->with('error', $th->getMessage());
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 

@@ -19,6 +19,9 @@ return new class extends Migration
             $table->unsignedBigInteger('asset_id');
             $table->foreign('asset_id')->references('id')
             ->on('assets');
+            $table->unsignedBigInteger('asset_type_id');
+            $table->foreign('asset_type_id')->references('id')
+            ->on('asset_types');
             $table->integer('quantity')->default(1);
             $table->timestamps();
         });

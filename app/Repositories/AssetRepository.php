@@ -2,12 +2,18 @@
 namespace App\Repositories;
 
 use App\Models\Asset;
+use App\Models\AssetType;
 
 class AssetRepository
 {
     public function getAll()
     {
         return Asset::all();
+    }
+
+    public function getType()
+    {
+        return AssetType::all();
     }
 
     public function find($id)
@@ -18,11 +24,6 @@ class AssetRepository
     public function create(array $data)
     {
         return Asset::create($data);
-    }
-
-    public function createMany(array $data)
-    {
-        return Asset::createMany($data);
     }
 
     public function update($id, array $data)

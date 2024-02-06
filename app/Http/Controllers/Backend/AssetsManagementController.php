@@ -37,7 +37,8 @@ class AssetsManagementController extends Controller
      */
     public function create()
     {
-        return view('backend.assets.create');
+        $assetType = $this->assetService->getType();
+        return view('backend.assets.create', compact(['assetType']));
     }
 
     /**
@@ -45,13 +46,11 @@ class AssetsManagementController extends Controller
      */
     public function store(Request $request)
     {
-        $assetRequest = $request->input('asset');
-
-        if ($assetRequest) {
-            $asset = $this->assetService->store($assetRequest);
-            return response()->json($asset);
-        } else {
-            return response()->json(['message' => 'Asset request is empty']);
+        try {
+            $this->assetService->store($request->all());
+            return redirect()->route('admin.asset.index')->with('success', 'Asset created successfully');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 

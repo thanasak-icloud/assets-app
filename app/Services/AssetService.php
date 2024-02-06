@@ -19,6 +19,11 @@ class AssetService
         return $this->assetRepository->getAll();
     }
 
+    public function getType()
+    {
+        return $this->assetRepository->getType();
+    }
+
     public function store(array $data)
     {
         $this->validate($data, [
@@ -27,7 +32,7 @@ class AssetService
             'asset_type_id' => 'required',
             'price' => 'nullable|numeric',
         ]);
-        return $this->assetRepository->createMany($data);
+        return $this->assetRepository->create($data);
     }
 
     public function update(array $data, $id)
