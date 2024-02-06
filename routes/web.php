@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Backend\AssetsManagementController;
+use App\Http\Controllers\Frontend\AssetsRequestController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,4 +30,20 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+    Route::get('/asset', [AssetsManagementController::class, 'index'])->name('admin.asset.index');
+    Route::get('/asset/create', [AssetsManagementController::class, 'create'])->name('admin.asset.create');
+    Route::post('/asset', [AssetsManagementController::class, 'store'])->name('admin.asset.store');
+    Route::get('/asset/{asset}', [AssetsManagementController::class, 'show'])->name('admin.asset.show');
+    Route::get('/asset/{asset}', [AssetsManagementController::class, 'edit'])->name('admin.asset.edit');
+    Route::patch('/asset/{asset}', [AssetsManagementController::class, 'update'])->name('admin.asset.update');
+    Route::delete('/asset/{asset}', [AssetsManagementController::class, 'destroy'])->name('admin.asset.destroy');
+});
+
+Route::middleware(['auth'])->prefix('user')->group(function () {
+    Route::get('/asset-request', [AssetsRequestController::class, 'index'])->name('user.assetrequest.index');
+    Route::get('/asset-request/create', [AssetsRequestController::class, 'create'])->name('user.assetrequest.create');
+    Route::post('/asset-request', [AssetsRequestController::class, 'store'])->name('user.assetrequest.store');
+});
+
+require __DIR__ . '/auth.php';

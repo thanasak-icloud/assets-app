@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('assets', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('description');
-            $table->unsignedBigInteger('asset_id');
-            $table->foreign('asset_id')->references('id')
-            ->on('asset_types')
-            ->onDelete('cascade');
+            $table->string('description')->nullable();
+            $table->float('price')->nullable();
+            $table->unsignedBigInteger('asset_type_id');
+            $table->foreign('asset_type_id')->references('id')
+            ->on('asset_types');
             $table->timestamps();
         });
     }

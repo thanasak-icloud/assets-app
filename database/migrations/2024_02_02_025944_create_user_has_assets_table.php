@@ -13,10 +13,13 @@ return new class extends Migration
     {
         Schema::create('user_has_assets', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('asset_id')->constrained();
-            $table->integer('quantity');
-            $table->float('price');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')
+            ->on('users');
+            $table->unsignedBigInteger('asset_id');
+            $table->foreign('asset_id')->references('id')
+            ->on('assets');
+            $table->integer('quantity')->default(1);
             $table->timestamps();
         });
     }

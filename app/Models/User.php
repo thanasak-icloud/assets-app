@@ -42,4 +42,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function assets()
+    {
+        return $this->belongsToMany(Asset::class, 'user_has_assets', 'user_id', 'asset_id');
+    }
 }
