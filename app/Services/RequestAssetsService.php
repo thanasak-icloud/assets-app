@@ -33,44 +33,48 @@ class RequestAssetsService
         return $this->requestAssetRepository->find($id);
     }
     public function store($data)
-    {
-        $this->validate($data, [
-            'asset_id' => ['required'],
-            'quantity' => ['required', 'numeric'],
-        ]);
-        $data['user_id'] = auth()->user()->id;
+{
+    $this->validate($data, [
+        'asset_id' => 'required',
+        'quantity' => 'required|numeric',
+    ]);
 
-        $asset = $this->assetRepository->find($data['asset_id']);
+    $user = auth()->user();
+    $asset = $this->assetRepository->find($data['asset_id']);
 
-        if ($asset == null) {
-            throw ValidationException::withMessages(['asset_id' => 'Asset not found']);
-        }
-
-        $assetTypeId = $asset->asset_type_id;
-
-        $data['asset_type_id'] = $assetTypeId;
-
-        if ($assetTypeId == 1 || $assetTypeId == 2) {
-            if ($data['quantity'] > 1) {
-                throw ValidationException::withMessages(['quantity' => 'Quantity must be 1 for this asset type']);
-            }
-        }
-
-        $userHasAsset = UserHasAsset::where('user_id', $data['user_id'])
-            ->where('asset_type_id', $assetTypeId)->first();
-
-        if ($userHasAsset !== null) {
-            $ownTypeId = $userHasAsset->asset_type_id;
-            $sumQuantity = $userHasAsset->sum('quantity');
-
-            if ($ownTypeId == 1 || $ownTypeId == 2) {
-                if ($sumQuantity > 1) {
-                    throw ValidationException::withMessages(['quantity' => 'You can only have 1 of this asset type']);
-                }
-            }
-        }
-        return $this->requestAssetRepository->create($data);
+    if (!$asset) {
+        throw ValidationException::withMessages(['asset_id' => 'Asset not found']);
     }
+
+    $this->validateAssetTypeQuantity($user->id, $asset->asset_type_id, $data['quantity']);
+
+    $data['user_id'] = $user->id;
+    $data['asset_type_id'] = $asset->asset_type_id;
+
+    return $this->requestAssetRepository->create($data);
+}
+
+private function validateAssetTypeQuantity($userId, $assetTypeId, $quantity)
+{
+    if ($assetTypeId == 1 || $assetTypeId == 2) {
+        if ($quantity > 1) {
+            throw ValidationException::withMessages(['quantity' => 'Quantity must be 1 for this asset type']);
+        }
+    }
+
+    $userHasAsset = UserHasAsset::where('user_id', $userId)
+        ->where('asset_type_id', $assetTypeId)
+        ->first();
+
+    if ($userHasAsset && ($userHasAsset->asset_type_id == 1 || $userHasAsset->asset_type_id == 2)) {
+        $sumQuantity = $userHasAsset->sum('quantity');
+
+        if ($sumQuantity > 1) {
+            throw ValidationException::withMessages(['quantity' => 'You can only have 1 of this asset type']);
+        }
+    }
+}
+
     public function update($id, $data)
     {
         $this->validate($data, [

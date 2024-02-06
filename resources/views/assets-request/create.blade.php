@@ -37,9 +37,9 @@
                                     <div class="col-12 mb-3">
                                         <label for="" class="form-label">Asset to request</label>
                                         <select name="asset_id" class="form-select" aria-label="Default select example">
-                                            {{-- <option selected>Open this select menu</option> --}}
+                                            <option value="" selected>Open this select menu</option>
                                             @foreach ($asset as $item)
-                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                                <option value="{{ $item->id }}">{{ $item->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>

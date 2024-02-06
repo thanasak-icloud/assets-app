@@ -25,7 +25,6 @@
                                 <th>User</th>
                                 <th>Asset</th>
                                 <th>Quantity</th>
-                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -34,10 +33,6 @@
                                     <td>{{ $requestAsset->user->name }}</td>
                                     <td>{{ $requestAsset->assets->name }}</td>
                                     <td>{{ $requestAsset->quantity }}</td>
-                                    <td>
-                                        -
-                                        {{-- <a href="#" class="btn btn-warning">Edit</a> --}}
-                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

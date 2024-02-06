@@ -36,7 +36,7 @@
                                     </div>
                                     <div class="col-12 mb-3">
                                         <select name="asset_type_id" class="form-select" aria-label="Default select example">
-                                            <option selected>Open this select menu</option>
+                                            <option value="" selected>Open this select menu</option>
                                             @foreach ($assetType as $item)
                                             <option value="{{ $item->id }}">{{ $item->name }}</option>
                                             @endforeach

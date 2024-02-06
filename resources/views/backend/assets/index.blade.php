@@ -49,7 +49,6 @@
                                 <th>Name</th>
                                 <th>Description</th>
                                 <th>Price</th>
-                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -58,10 +57,6 @@
                                     <td>{{ $asset->name }}</td>
                                     <td>{{ $asset->description }}</td>
                                     <td>{{ $asset->price }}</td>
-                                    <td>
-                                        -
-                                        {{-- <a href="#" class="btn btn-warning">Edit</a> --}}
-                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
